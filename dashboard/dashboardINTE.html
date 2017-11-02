@@ -22,6 +22,7 @@
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
+    <script src="https://unpkg.com/vue"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,7 +43,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="dashboardADM.html" class="logo"><b>BDMG - Verde</b></a>
+            <a href="index.html" class="logo"><b>BDMG - Verde</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -50,7 +51,7 @@
                 <ul class="nav top-menu">
                     <!-- settings start -->
                     <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="dashboardADM.html#">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                             <i class="fa fa-tasks"></i>                            
                         </a>
                         <ul class="dropdown-menu extended tasks-bar">
@@ -59,7 +60,7 @@
                                 <p class="green">Estatisticas</p>
                             </li>
                             <li>
-                                <a href="dashboardADM.html#">
+                                <a href="index.html#">
                                     <div class="task-info">
                                         <div class="desc">Taxa de aprovação</div>
                                         <div class="percent">83%</div>
@@ -73,7 +74,7 @@
                             </li>
 
                             <li>
-                                <a href="dashboardADM.html#">
+                                <a href="index.html#">
                                     <div class="task-info">
                                         <div class="desc">Taxa de desistência</div>
                                         <div class="percent">8%</div>
@@ -114,7 +115,7 @@
               	  <h5 class="centered">Analisador - João Carlos</h5>
               	  	
                   <li class="mt">
-                      <a class="active" href="dashboardADM.html">
+                      <a class="active" href="index.html">
                           <i class="fa fa-dashboard"></i>
                           <span>Dashboard</span>
                       </a>
@@ -140,6 +141,36 @@
       <section id="main-content">
           <section class="wrapper">
 
+              <div class="row">
+                  <div class="col-lg-9 main-chart">
+                  
+                  	<div class="row mtbox">
+                  		<div class="col-md-3 col-sm-2 box0">
+                  			<div class="box1">
+                                <p class="centered"><img src="assets/img/check.png" class="img-circle" width="62"></p>
+					  			<h3>442</h3>
+                  			</div>
+					  			<p>442 Projetos já foram aceitos.</p>
+                  		</div>
+                  		<div class="col-md-3 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_news"></span>
+					  			<h3>3!</h3>
+                  			</div>
+					  			<p>Tem 3 Projetos necessitando avaliação.</p>
+                        </div>
+                        <div class="col-md-3 col-sm-2 box0">
+                            <div class="box1">
+                                    <p class="centered"><img src="assets/img/boook.png" class="img-circle" width="73"></p>
+                                <h3>2!</h3>
+                            </div>
+                                <p>Tem 2 Projetos com documentação pendente.</p>
+                        </div>
+                  	
+                  	</div><!-- /row mt -->	
+                  					
+
+                  
                   
       <!-- **********************************************************************************************************************************************************
       RIGHT SIDEBAR CONTENT
@@ -158,41 +189,76 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>                  
+                    
+                    <tbody v-show="remover == ''">                  
                             <!--<h5 class="centered">contanome</h5>-->                                       
                             
                             <td> <a class="content" 
-                                href= "pendencias.html" > 13.764.526/0001-90</a> 
+                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 13.764.526/0001-90</a> 
                             </td> 
                                                                  
                             <td > <a class="content" 
-                                href= "pendencias.html" > 72.364.170/0001-66  </a>
+                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 72.364.170/0001-66 </a>
                             </td>
                             <td  >
-                                R$ 856.600,47
+                                 R$ 856.600,47
                             </td>
                             <td >     
-                                R$ 324.000,00   
-                            </td>                          
+                                 R$ 324.000,00   
+                            </td>
+                            <td>
+                                <a v-on:click="removerPro()"
+                                class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i></a>
+                                <a href="{{ route('desativarCliente', $cliente->ID) }}"
+                                class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>                              
                     </tbody>
                     <tbody>                  
                             <!--<h5 class="centered">contanome</h5>-->                                       
                             
                             <td> <a class="content" 
-                                href= "pendencias.html" > 87.385.651/0001-25</a> 
+                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 87.385.651/0001-25</a> 
                             </td> 
                                                                  
                             <td > <a class="content" 
-                                href= "pendencias.html" > 15.386.142/0001-06 </a>
+                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 15.386.142/0001-06 </a>
                             </td>
                             <td  >
                                  R$ 430.513,54
                             </td>
                             <td >     
                                  R$  200.900,00   
-                            </td>                          
+                            </td>
+                            <td>
+                                <a href= "/dashboard/clientes/editar/{{$cliente->ID}}" 
+                                class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i></a>
+                                <a href="{{ route('desativarCliente', $cliente->ID) }}"
+                                class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>                              
                     </tbody>
-                   
+                    <tbody>                  
+                            <!--<h5 class="centered">contanome</h5>-->                                       
+                            
+                            <td> <a class="content" 
+                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 38.415.585/0001-83</a> 
+                            </td> 
+                                                                 
+                            <td > <a class="content" 
+                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 18.252.635/0001-41 </a>
+                            </td>
+                            <td  >
+                                 R$ 260.900,47
+                            </td>
+                            <td >     
+                                 R$  324.000,00   
+                            </td>
+                            <td>
+                                <a href= "/dashboard/clientes/editar/{{$cliente->ID}}" 
+                                class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i></a>
+                                <a href="{{ route('desativarCliente', $cliente->ID) }}"
+                                class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>                              
+                    </tbody>
                     
                 </table>
             </div>
@@ -224,8 +290,13 @@
 
     <!--script for this page-->
     <script src="assets/js/sparkline-chart.js"></script>    
-	<script src="assets/js/zabuto_calendar.js"></script>	
-		
+    <script src="assets/js/zabuto_calendar.js"></script>
+    
+    
+    <script src="assets/js/remove.js"></script>
+    
+
+
 	<script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
