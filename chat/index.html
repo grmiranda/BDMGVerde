@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>jquery.ui.chatbox</title>
+    <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.2.custom.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
+    <link type="text/css" href="jquery.ui.chatbox.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery.ui.chatbox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var box = null;
+            $(document).ready(function (event, ui) {
+                if (box) {
+                    box.chatbox("option", "boxManager").toggleBox();
+                }
+                else {
+                    var status = 0;
+                    var nome = "";
+                    var mensal = '';
+                    var telefone = "";
+                    var cnpj = "";
+                    //1 = conhece a bdmg
+                    box = $("#chat_div").chatbox({
+                        id: "Você",
+                        user: { key: "value" },
+                        title: "Chat",
+                        messageSent: function (id, user, msg) {
+                            switch (status) {
+                                case 0:
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    if (msg == 'sim') {
+                                        mensagem("Vamos simular uma proposta para sua empresa?", 1500);
+                                        status = 1;
+                                    }
+                                    break;
+                                case 1:
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    if (msg == 'sim' || msg == 'vamos') {
+                                        mensagem("Vamos precisar de alguns dados, é bem rápido", 1500);
+                                        mensagem("Qual o seu nome?", 2000);
+                                        status = 2;
+                                    }
+                                    break
+                                case 2:// pega nome e pede telefone
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    nome = msg;
+                                    mensagem(`Certo Sr. ${nome}, por favor agora informe um telefone para contato`, 1000);
+                                    status = 3;
+                                    break
+                                case 3:// pega telefone e pede cnpj
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    telefone = msg;
+                                    mensagem(`Qual o CNPJ da sua empresa?`, 1000);
+                                    status = 4;
+                                    break
+                                case 4:// pega cnpj e pede mensalidade
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    cnpj = msg;
+                                    mensagem(`Sr. ${nome}, o nome da sua empresa é Teste produtos e serviços?`, 1000);
+                                    status = 5;
+                                    break
+                                case 5:// pega cnpj e pede mensalidade
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    if (msg == 'sim') {
+                                        mensagem("Já estamos finalizando", 1000);
+                                        mensagem("Precisamos agora saber o gasto mensal de energia de sua empresa. Qual o valor médio que sua empresa consome?", 1500);
+                                        status = 6;
+                                    } else {
+                                        mensagem("Vamos tentar novamente", 1000);
+                                        mensagem("Infome o CNPJ de sua empresa", 1500);
+                                        status = 4;
+                                    }
+                                    break
+                                case 6:// pega valor mensal
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    mensal = msg.split(" ")[0].replace(/,/g, '.');
+                                    mensagem(`Podemos oferecer ao senhor, um crédito de até R$ ${formatReal(mensal * 48624)}? \n \t
+                                    Com entrada de R$ ${formatReal(mensal * 48624 * 0.1)} \n \t 
+                                    Financiando o valor de de R$ ${formatReal(mensal * 48624 * 0.9)} \n \t
+                                    E taxa mensal de 1,6% \n \t
+                                    E taxa anual de 21% \n \t
+                                    Podemos oferecer o parcelamento em: 
+                                    12x(R$ ${calculoParcela(mensal * 48624 * 0.9, 12, 0.016)}), 
+                                    32x(R$ ${calculoParcela(mensal * 48624 * 0.9, 32, 0.016)}),
+                                    60x(R$ ${calculoParcela(mensal * 48624 * 0.9, 60, 0.016)})
+                                    `, 1000);
+                                    status = 5;
+                                    break
+                            }
+                        }
+                    });
+                    $("#chat_div").chatbox("option", "boxManager").addMsg("Atendente BDMG", "você conhece já conhece o programa da BDMG Verde?");
+                }
+            });
+        });
+    </script>
+    <script>
+        function mensagem(msg, tempo) {
+            setTimeout(() => $("#chat_div").chatbox("option", "boxManager").addMsg("Atendente BDMG", msg), tempo);
+        }
+
+        function formatReal(numero) {
+            numero = numero.toString();
+            let aux = numero.indexOf('.') > -1 ? '' : ',00';
+            let aux2 = 0;
+            for (let i = numero.length - 1; i >= 0; i--) {
+                if (numero[i] == '.') {
+                    aux = ',' + aux;
+                    aux2 = 0;
+                } else {
+                    aux = numero[i] + aux;
+                    aux2++;
+                    if (numero[i - 1] && aux2 == 3) {
+                        aux = "." + aux;
+                        aux2 = 0;
+                    }
+                }
+            }
+            return aux;
+        }
+
+        function calculoParcela(valorFinanciado, parcelas, juros) {
+            cf = juros / (1 - (1 / Math.pow(1 + juros, parcelas)));
+            return formatReal((cf * valorFinanciado).toFixed(2));
+        }
+    </script>
+</head>
+
+<body>
+    <div id="chat_div">
+    </div>
+</body>
+
+</html>
