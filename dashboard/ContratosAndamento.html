@@ -22,7 +22,6 @@
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
-    <script src="https://unpkg.com/vue"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,7 +45,9 @@
             <a href="dashboardINTE.html" class="logo"><b>BDMG - Verde</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
-
+                <!--  notification start -->
+                
+                <!--  notification end -->
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
@@ -67,13 +68,13 @@
               	  <h5 class="centered">Integrador - Roberto Bittencourt</h5>
               	  	
                   <li class="mt">
-                      <a class="active" href="dashboardINTE.html">
+                      <a href="dashboardINTE.html">
                           <i class="fa fa-dashboard"></i>
                           <span>Dashboard</span>
                       </a>
                   </li>
                   <li class="mt">
-                        <a  href="ContratosAndamento.html">
+                        <a class="active" href="ContratosAndamento.html">
                             <i class="glyphicon glyphicon-book"></i>
                             <span>Contratos em andamento</span>
                         </a>
@@ -92,6 +93,8 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
+
+                  
       <!-- **********************************************************************************************************************************************************
       RIGHT SIDEBAR CONTENT
       *********************************************************************************************************************************************************** -->                  
@@ -102,30 +105,42 @@
                 <table class="table table-advance" id="clientes">
                     <thead>
                         <tr>
-                            <th><i class="fa fa-user-o"></i> CNPJ empresa </th> 
-                            <th><i class="fa fa-user-o"></i> Numero de contato </th>                            
-                            <th><i class="fa fa-usd"></i> Mensal de Energia</th>
+                            <th><i class="fa fa-user-o"></i> CNPJ Empresa </th>
+                            <th><i class="fa fa-id-card-o">  </i>Número</th>
+                            <th class="hidden-phone"> Status</th>
                             <th></th>
                         </tr>
                     </thead>
-                    
                     <tbody>                  
                             <!--<h5 class="centered">contanome</h5>-->                                       
-                                                                                             
-                            <td > <a class="content" 
-                                href= "aceitarEnviar.html" > 72.364.170/0001-66 </a>
+                            
+                            <td>
+                                13.764.526/0001-90
+                            </td> 
+                                                                 
+                            <td > 
+                                (34) 3324-5446
                             </td>
-                            <td >
-                                (31) 3334-5145
+                            <td  >
+                                Esperando aprovação
                             </td>
-                            <td >     
-                                 R$ 2000,00   
-                            </td>
-                            <td>                               
-                                <a href="{{ route('desativarCliente', $cliente->ID) }}"
-                                class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>                              
+                     
                     </tbody>
+                    <tbody>                  
+                            <!--<h5 class="centered">contanome</h5>-->                                       
+                            
+                            <td>  87.385.651/0001-25
+                            </td> 
+                                                                 
+                            <td > 
+                                    (34) 3384-8448
+                            </td>
+                            <td  >
+                                    Projeto em implementação
+                            </td>
+                    
+                    </tbody>
+                   
                     
                 </table>
             </div>
@@ -157,13 +172,8 @@
 
     <!--script for this page-->
     <script src="assets/js/sparkline-chart.js"></script>    
-    <script src="assets/js/zabuto_calendar.js"></script>
-    
-    
-    <script src="assets/js/remove.js"></script>
-    
-
-
+	<script src="assets/js/zabuto_calendar.js"></script>	
+		
 	<script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});

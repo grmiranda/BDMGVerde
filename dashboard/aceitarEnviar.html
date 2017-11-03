@@ -73,7 +73,7 @@
                       </a>
                   </li>
                   <li class="mt">
-                        <a  href="ContratosAndamento.html">
+                        <a class="active" href="ContratosAndamento.html">
                             <i class="glyphicon glyphicon-book"></i>
                             <span>Contratos em andamento</span>
                         </a>
@@ -92,47 +92,56 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-      <!-- **********************************************************************************************************************************************************
-      RIGHT SIDEBAR CONTENT
-      *********************************************************************************************************************************************************** -->                  
-                  
-      <div class="row mt">
-        <div class="col-md-12">
-            <div class="content-panel table-responsive">
-                <table class="table table-advance" id="clientes">
-                    <thead>
-                        <tr>
-                            <th><i class="fa fa-user-o"></i> CNPJ empresa </th> 
-                            <th><i class="fa fa-user-o"></i> Numero de contato </th>                            
-                            <th><i class="fa fa-usd"></i> Mensal de Energia</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>                  
-                            <!--<h5 class="centered">contanome</h5>-->                                       
-                                                                                             
-                            <td > <a class="content" 
-                                href= "aceitarEnviar.html" > 72.364.170/0001-66 </a>
-                            </td>
-                            <td >
-                                (31) 3334-5145
-                            </td>
-                            <td >     
-                                 R$ 2000,00   
-                            </td>
-                            <td>                               
-                                <a href="{{ route('desativarCliente', $cliente->ID) }}"
-                                class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>                              
-                    </tbody>
-                    
-                </table>
-            </div>
-            <!-- /content-panel -->
-        </div>
-        <!-- /col-md-12 -->
-    </div>
+
+
+                <h3>Enviar Projeto</h3>
+                <!-- BASIC FORM ELELEMNTS -->
+                <div id="alertMensagem"></div>
+                <form method="post" action="/dashboard/advogados/novo">
+
+                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+
+                <div class="row mt">
+                    <div class="col-lg-12">
+                        <div class="form-panel">
+                            <form class="form-horizontal style-form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">Custo</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="custo" 
+                                        required >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">N. ceulas</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name= 'celulas' 
+                                        required >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">Peso</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="peso" 
+                                        required >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">Area total</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" name="area"
+                                        required >
+                                    </div>
+                                </div>
+                                <button class="btn filtrar">Aceitar e submeter</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- col-lg-12-->
+                </div>
+            </form>
+                    <!-- /row -->
+                    </form>
           </section>
       </section>
 
