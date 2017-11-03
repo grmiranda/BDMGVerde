@@ -35,11 +35,207 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- //font-awesome icons -->
 	<link href="http://fonts.googleapis.com/css?family=Cabin+Condensed:400,500,600,700" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:100,400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
-	    rel='stylesheet' type='text/css'>
+		rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.2.custom.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
+	<link type="text/css" href="jquery.ui.chatbox.css" rel="stylesheet" />
+	<script type="text/javascript" src="jquery.ui.chatbox.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+	<script type="text/javascript" src="js/firebase.js"></script>
+	<script type="text/javascript">
+		var integradores = [];
+		getIntegrador(value => integradores = value);
+		$(document).ready(function () {
+			var box = null;
+			$(document).ready(function (event, ui) {
+				if (box) {
+					box.chatbox("option", "boxManager").toggleBox();
+				}
+				else {
+					var status = 0;
+					var nome = "";
+					var mensal = '';
+					var telefone = "";
+					var cnpj = "";
+					var uid = "";
+					//1 = conhece a bdmg
+					box = $("#chat_div").chatbox({
+						id: "Você",
+						user: { key: "value" },
+						title: "Chat",
+						messageSent: function (id, user, msg) {
+							switch (status) {
+								case 0:
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									if (msg == 'sim') {
+										mensagem("Vamos simular uma proposta para sua empresa?", 1500);
+										status = 1;
+									}
+									break;
+								case 1:
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									if (msg == 'sim' || msg == 'vamos') {
+										mensagem("Vamos precisar de alguns dados, é bem rápido", 1500);
+										mensagem("Qual o seu nome?", 2000);
+										status = 2;
+									}
+									break
+								case 2:// pega nome e pede telefone
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									nome = msg;
+									mensagem(`Certo Sr. ${nome}, por favor agora informe um telefone para contato`, 1000);
+									status = 3;
+									break
+								case 3:// pega telefone e pede cnpj
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									telefone = msg;
+									uid = addcliente({ nome, telefone });
+									mensagem(`Qual o CNPJ da sua empresa?`, 1000);
+									status = 4;
+									break
+								case 4:// pega cnpj e pede mensalidade
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									cnpj = msg;
+									updateCliente(uid, { nome, telefone, cnpj });
+									mensagem(`Sr. ${nome}, o nome da sua empresa é Teste produtos e serviços?`, 1000);
+									status = 5;
+									break
+								case 5:// pega cnpj e pede mensalidade
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									if (msg == 'sim') {
+										mensagem("Já estamos finalizando", 1000);
+										mensagem("Precisamos agora saber o gasto mensal de energia de sua empresa. Qual o valor médio que sua empresa consome?", 1500);
+										status = 6;
+									} else {
+										mensagem("Vamos tentar novamente", 1000);
+										mensagem("Infome o CNPJ de sua empresa", 1500);
+										status = 4;
+									}
+									break
+								case 6:// pega valor mensal
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									mensal = msg.split(" ")[0].replace(/,/g, '.');
+									updateCliente(uid, { nome, telefone, cnpj, mensal: formatReal(mensal) });
+									mensagem(`Podemos oferecer ao senhor, um crédito de até R$ ${formatReal(mensal * 48624)}? \n \t
+                                    Com entrada de R$ ${formatReal(mensal * 48624 * 0.1)} \n \t 
+                                    Financiando o valor de de R$ ${formatReal(mensal * 48624 * 0.9)} \n \t
+                                    E taxa mensal de 1,6% \n \t
+                                    E taxa anual de 21% \n \t
+                                    Podemos oferecer o parcelamento em: 
+                                    12x(R$ ${calculoParcela(mensal * 48624 * 0.9, 12, 0.016)}), 
+                                    32x(R$ ${calculoParcela(mensal * 48624 * 0.9, 32, 0.016)}),
+                                    60x(R$ ${calculoParcela(mensal * 48624 * 0.9, 60, 0.016)})
+                                    `, 1000);
+									mensagem(`Mas isso a gente deixa pra depois, vamos pensar no projeto, o Sr. já tem um integrador?`, 3000);
+									status = 7;
+									break
+								case 7:
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									if (msg == 'sim') {
+										mensagem(`Então quando tiver a proposta, envia pra gente, para analisarmos, é so acessar sua conta pelo site ou pelo app e enviar por lá`, 1000);
+									} else {
+										mensagem(`Sr. ${nome}, temos alguns integradores cadastrados no nosso sistema, gostaria de contactar alguns deles?`, 1000);
+										status = 8;
+									}
+									break
+								case 8:
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									if (msg == 'sim') {
+										mensagem(`Para indicar o integradores que mais tem a ver com o que o senhor procura, que tal informar o ponto que mais tem relevância pra o senhor? 1- preço, 2 - qualidade de serviço ou 3 - mais serviços feitos`, 1000);
+										status = 9;
+									} else {
+										mensagem(`Então quando tiver a proposta, envia pra gente, para analisarmos, é so acessar sua conta pelo site ou pelo app e enviar por lá`, 1000);
+									}
+									break
+								case 9:
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									if (msg.indexOf('1') > -1 || msg.indexOf('preço') > -1) {
+										mensagem(`Para a opção 'preço', temos os integradores: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()} \n Selecione somente um integrador, escolhendo pelo número dele ou o nome`, 1000);
+										status = 10;
+									} else if (msg.indexOf('2') > -1 || msg.indexOf('qualidade de serviço') > -1) {
+										mensagem(`Para a opção 'qualidade de serviço', temos os integradores: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()} \n Selecione somente um integrador, escolhendo pelo número dele ou o nome`, 1000);
+										status = 10;
+									} else if (msg.indexOf('3') > -1 || msg.indexOf('mais serviços feitos') > -1) {
+										mensagem(`Para a opção 'mais serviços feitos', temos os integradores: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()} \n Selecione somente um integrador, escolhendo pelo número dele ou o nome`, 1000);
+										status = 10;
+									}
+									break
+								case 10:
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									let encontrou = false;
+									let index = 0;
+									integradores.map((integrador, i) => {
+										if (msg == i + 1 || msg == integrador.nome) {
+											encontrou = true;
+											index = i;
+											addRelacionamento({ cliente: uid, integrador: integrador.key });
+										}
+									});
+									if (encontrou) {
+										mensagem(`Integrador ${integradores.splice(index, 1)[0].nome} escolhido, deseja escolher mais um integrador?`, 1000);
+										status = 11;
+									} else {
+										mensagem(`Opção invalida, Selecione somente o integrador, escolhendo pelo número dele ou o nome`, 1000);
+										mensagem(` ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()}`, 1500);
+									}
+									break;
+								case 11:
+									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+									if (msg == 'sim') {
+										mensagem(`opções: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()}`, 1000);
+										status = 10;
+									} else {
+										mensagem(`Encaminhamos solicitações para todos os integradores selecionados, vamos esperar eles entrar em contato e dar continuidade ao processo. O Sr. pode acompanhar o processo pelo site a qualquer momento, utilizando apenas seu CNPJ`, 1000);
+										mensagem(`Lembre-se, BDMG por um mundo mais verde`, 1000);
+									}
+									break;
+
+							}
+						}
+					});
+					$("#chat_div").chatbox("option", "boxManager").addMsg("Atendente BDMG", "você conhece já conhece o programa da BDMG Verde?");
+				}
+			});
+		});
+	</script>
+	<script>
+		function mensagem(msg, tempo) {
+			setTimeout(() => $("#chat_div").chatbox("option", "boxManager").addMsg("Atendente BDMG", msg), tempo);
+		}
+
+		function formatReal(numero) {
+			numero = numero.toString();
+			let aux = numero.indexOf('.') > -1 ? '' : ',00';
+			let aux2 = 0;
+			for (let i = numero.length - 1; i >= 0; i--) {
+				if (numero[i] == '.') {
+					aux = ',' + aux;
+					aux2 = 0;
+				} else {
+					aux = numero[i] + aux;
+					aux2++;
+					if (numero[i - 1] && aux2 == 3) {
+						aux = "." + aux;
+						aux2 = 0;
+					}
+				}
+			}
+			return aux;
+		}
+
+		function calculoParcela(valorFinanciado, parcelas, juros) {
+			cf = juros / (1 - (1 / Math.pow(1 + juros, parcelas)));
+			return formatReal((cf * valorFinanciado).toFixed(2));
+		}
+	</script>
 
 </head>
 
 <body>
+	<div id="chat_div">
+	</div>
 	<!-- banner -->
 	<div class="banner">
 		<div class="container">
@@ -55,7 +251,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="agileits_w3layouts_sign_in">
-					<a href="#small-dialog" class="play-icon popup-with-zoom-anim">Meu portal</a>
+					<a href="./dashboard/login.html" class="play-icon popup-with-zoom-anim">Meu portal</a>
 
 				</div>
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
@@ -533,12 +729,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="clearfix"> </div>
 		</div>
 	</div>
-	<!-- //footer -->
-
-
-	<!-- js -->
+<!--
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<!-- //js -->
+	 //footer
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.js"></script>-->
+
+	<!-- //js 
 	<script type="text/javascript">
 		$(function () {
 			$("#bars li .bar").each(function (key, bar) {
