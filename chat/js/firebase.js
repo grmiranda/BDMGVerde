@@ -109,7 +109,9 @@ function getClienteByIntegrador(key, callback) {
             db.ref('/cliente/' + relacionamento.cliente).once('value').then(function (snapshot2) {
                 aux2 = snapshot2.val();
                 aux2.key = relacionamento.cliente;
-                relacionamento.clientes = aux2;
+                relacionamento.cnpj = aux2.cnpj;
+                relacionamento.nome = aux2.nome;
+                relacionamento.key = aux2.key;
             });
         });
         callback(aux);
