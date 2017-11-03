@@ -8,7 +8,11 @@
     <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
     <link type="text/css" href="jquery.ui.chatbox.css" rel="stylesheet" />
     <script type="text/javascript" src="jquery.ui.chatbox.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+    <script type="text/javascript" src="js/firebase.js"></script>
     <script type="text/javascript">
+        var integradores = [];
+        getIntegrador(value => integradores = value);
         $(document).ready(function () {
             var box = null;
             $(document).ready(function (event, ui) {
@@ -21,6 +25,7 @@
                     var mensal = '';
                     var telefone = "";
                     var cnpj = "";
+                    var uid = "";
                     //1 = conhece a bdmg
                     box = $("#chat_div").chatbox({
                         id: "Você",
@@ -52,12 +57,14 @@
                                 case 3:// pega telefone e pede cnpj
                                     $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
                                     telefone = msg;
+                                    uid = addcliente({ nome, telefone });
                                     mensagem(`Qual o CNPJ da sua empresa?`, 1000);
                                     status = 4;
                                     break
                                 case 4:// pega cnpj e pede mensalidade
                                     $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
                                     cnpj = msg;
+                                    updateCliente(uid, { nome, telefone, cnpj });
                                     mensagem(`Sr. ${nome}, o nome da sua empresa é Teste produtos e serviços?`, 1000);
                                     status = 5;
                                     break
@@ -76,6 +83,7 @@
                                 case 6:// pega valor mensal
                                     $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
                                     mensal = msg.split(" ")[0].replace(/,/g, '.');
+                                    updateCliente(uid, { nome, telefone, cnpj, mensal: formatReal(mensal) });
                                     mensagem(`Podemos oferecer ao senhor, um crédito de até R$ ${formatReal(mensal * 48624)}? \n \t
                                     Com entrada de R$ ${formatReal(mensal * 48624 * 0.1)} \n \t 
                                     Financiando o valor de de R$ ${formatReal(mensal * 48624 * 0.9)} \n \t
@@ -86,8 +94,70 @@
                                     32x(R$ ${calculoParcela(mensal * 48624 * 0.9, 32, 0.016)}),
                                     60x(R$ ${calculoParcela(mensal * 48624 * 0.9, 60, 0.016)})
                                     `, 1000);
-                                    status = 5;
+                                    mensagem(`Mas isso a gente deixa pra depois, vamos pensar no projeto, o Sr. já tem um integrador?`, 3000);
+                                    status = 7;
                                     break
+                                case 7:
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    if (msg == 'sim') {
+                                        mensagem(`Então quando tiver a proposta, envia pra gente, para analisarmos, é so acessar sua conta pelo site ou pelo app e enviar por lá`, 1000);
+                                    } else {
+                                        mensagem(`Sr. ${nome}, temos alguns integradores cadastrados no nosso sistema, gostaria de contactar alguns deles?`, 1000);
+                                        status = 8;
+                                    }
+                                    break
+                                case 8:
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    if (msg == 'sim') {
+                                        mensagem(`Para indicar o integradores que mais tem a ver com o que o senhor procura, que tal informar o ponto que mais tem relevância pra o senhor? 1- preço, 2 - qualidade de serviço ou 3 - mais serviços feitos`, 1000);
+                                        status = 9;
+                                    } else {
+                                        mensagem(`Então quando tiver a proposta, envia pra gente, para analisarmos, é so acessar sua conta pelo site ou pelo app e enviar por lá`, 1000);
+                                    }
+                                    break
+                                case 9:
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    if (msg.indexOf('1') > -1 || msg.indexOf('preço') > -1) {
+                                        mensagem(`Para a opção 'preço', temos os integradores: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()} \n Selecione somente um integrador, escolhendo pelo número dele ou o nome`, 1000);
+                                        status = 10;
+                                    } else if (msg.indexOf('2') > -1 || msg.indexOf('qualidade de serviço') > -1) {
+                                        mensagem(`Para a opção 'qualidade de serviço', temos os integradores: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()} \n Selecione somente um integrador, escolhendo pelo número dele ou o nome`, 1000);
+                                        status = 10;
+                                    } else if (msg.indexOf('3') > -1 || msg.indexOf('mais serviços feitos') > -1) {
+                                        mensagem(`Para a opção 'mais serviços feitos', temos os integradores: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()} \n Selecione somente um integrador, escolhendo pelo número dele ou o nome`, 1000);
+                                        status = 10;
+                                    }
+                                    break
+                                case 10:
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    let encontrou = false;
+                                    let index = 0;
+                                    integradores.map((integrador, i) => {
+                                        if (msg == i + 1 || msg == integrador.nome) {
+                                            encontrou = true;
+                                            index = i;
+                                            addRelacionamento({ cliente: uid, integrador: integrador.key });
+                                        }
+                                    });
+                                    if (encontrou) {
+                                        mensagem(`Integrador ${integradores.splice(index, 1)[0].nome} escolhido, deseja escolher mais um integrador?`, 1000);
+                                        status = 11;
+                                    } else {
+                                        mensagem(`Opção invalida, Selecione somente o integrador, escolhendo pelo número dele ou o nome`, 1000);
+                                        mensagem(` ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()}`, 1500);
+                                    }
+                                    break;
+                                case 11:
+                                    $("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+                                    if (msg == 'sim') {
+                                        mensagem(`opções: ${integradores.map((integrador, index) => ` ${(index + 1)} - ${integrador.nome}`).toString()}`, 1000);
+                                        status = 10;
+                                    } else {
+                                        mensagem(`Encaminhamos solicitações para todos os integradores selecionados, vamos esperar eles entrar em contato e dar continuidade ao processo. O Sr. pode acompanhar o processo pelo site a qualquer momento, utilizando apenas seu CNPJ`, 1000);                                        
+                                        mensagem(`Lembre-se, BDMG por um mundo mais verde`, 1000);                                        
+                                    }
+                                    break;
+
                             }
                         }
                     });
