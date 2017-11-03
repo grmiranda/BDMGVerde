@@ -104,9 +104,9 @@
       RIGHT SIDEBAR CONTENT
       *********************************************************************************************************************************************************** -->
 
-                <div class="row mt">
+                <div class="row mt" id="app">
                     <div class="col-md-12">
-                        <div id="app">
+                        <div>
                             <div class="content-panel table-responsive">
                                 <table class="table table-advance" id="clientes">
                                     <thead>
@@ -177,7 +177,7 @@
             el: '#app',
             data: {
                 clientes: []
-            }, created: function () {
+            }, beforeCreate: function () {
                 getClienteByIntegrador("-KxzEIw9GykFW48n38d1", (teste) => {
                     console.log(teste);
                     app.clientes = teste;

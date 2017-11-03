@@ -100,6 +100,7 @@ function getIntegradorKey(key, callback) {
 function getClienteByIntegrador(key, callback) {
     db.ref('relacionamento').orderByChild('integrador').equalTo(key).once('value').then(function (snapshot) {
         let aux = [];
+        let aux3 = [];
         for (atual in snapshot.val()) {
             aux2 = snapshot.val()[atual];
             aux2.key = atual;
@@ -112,15 +113,18 @@ function getClienteByIntegrador(key, callback) {
                 relacionamento.cnpj = aux2.cnpj;
                 relacionamento.nome = aux2.nome;
                 relacionamento.key = aux2.key;
+                aux3.push(relacionamento);
             });
         });
-        callback(aux);
+        callback(aux3);
     });
 }
 
 function getIntegradorByCliente(key, callback) {
+
     db.ref('relacionamento').orderByChild('cliente').equalTo(key).once('value').then(function (snapshot) {
         let aux = [];
+        let aux3 = [];
         for (atual in snapshot.val()) {
             aux2 = snapshot.val()[atual];
             aux2.key = atual;
@@ -131,8 +135,9 @@ function getIntegradorByCliente(key, callback) {
                 aux2 = snapshot2.val();
                 aux2.key = relacionamento.integrador;
                 relacionamento.integradores = aux2;
+                aux3.push(relacionamento);
             });
         });
-        callback(aux);
+        callback(aux3);
     });
 }
