@@ -136,7 +136,7 @@
                                         if (msg == i + 1 || msg == integrador.nome) {
                                             encontrou = true;
                                             index = i;
-                                            addRelacionamento({ cliente: uid, integrador: integrador.key });
+                                            addRelacionamento({ cliente: uid, integrador: integrador.key, status: 'aberto' });
                                         }
                                     });
                                     if (encontrou) {
