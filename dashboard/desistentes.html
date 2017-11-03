@@ -23,6 +23,7 @@
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
+    <script src="https://unpkg.com/vue"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -47,11 +48,6 @@
                 <b>BDMG</b>
             </a>
             <!--logo end-->
-            <div class="nav notify-row" id="top_menu">
-                <!--  notification start -->
-
-                <!--  notification end -->
-            </div>
             <div class="top-menu">
                 <ul class="nav pull-right top-menu">
                     <li>
@@ -74,22 +70,25 @@
 
                     <li class="mt">
                         <a href="dashboardADM.html">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Dashboard</span>
+                            <div>
+                                <i class="fa fa-dashboard"></i>
+                                <span>Dashboard</span>
+                            </div>
                         </a>
                     </li>
                     <li class="mt">
-                        <a class="active" href="pendentes.html">
+                        <a href="pendentes.html">
                             <i class="glyphicon glyphicon-book"></i>
                             <span>Contratos com pendencias</span>
                         </a>
                     </li>
                     <li class="mt">
-                        <a href="desistentes.html">
+                        <a class="active" href="desistentes.html">
                             <i class="glyphicon glyphicon-book"></i>
                             <span>Contratos com desistência</span>
                         </a>
                     </li>
+
 
                 </ul>
                 <!-- sidebar menu end-->
@@ -103,8 +102,6 @@
         <!--main content start-->
         <section id="main-content">
             <section class="wrapper">
-
-
                 <!-- **********************************************************************************************************************************************************
       RIGHT SIDEBAR CONTENT
       *********************************************************************************************************************************************************** -->
@@ -116,51 +113,34 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            <i class="fa fa-user-o"></i> CNPJ Integrador </th>
+                                            <i class="fa fa-user-o"></i> CNPJ empresa </th>
                                         <th>
-                                            <i class="fa fa-id-card-o"> </i>CNPJ empresa</th>
-                                        <th class="hidden-phone">
-                                            <i class="fa fa-usd"></i> Valor de Credito</th>
-                                        <th>
-                                            <i class="fa fa-usd"></i> Valor do projeto</th>
+                                            <i class="fa fa-id-card-o"> </i>Número de contato</th>
                                         <th></th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     <!--<h5 class="centered">contanome</h5>-->
 
                                     <td>
-                                        <a class="content" href="pendencias.html"> 13.764.526/0001-90</a>
+                                        <a class="content"> 36.658.314/0001-23</a>
                                     </td>
 
                                     <td>
-                                        <a class="content" href="pendencias.html"> 72.364.170/0001-66 </a>
-                                    </td>
-                                    <td>
-                                        R$ 856.600,47
-                                    </td>
-                                    <td>
-                                        R$ 324.000,00
+                                        <a class="content"> (31) 3277-8864 </a>
                                     </td>
                                 </tbody>
                                 <tbody>
                                     <!--<h5 class="centered">contanome</h5>-->
-
                                     <td>
-                                        <a class="content" href="pendencias.html"> 87.385.651/0001-25</a>
+                                        <a class="content"> 23.223.605/0001-47</a>
                                     </td>
 
                                     <td>
-                                        <a class="content" href="pendencias.html"> 15.386.142/0001-06 </a>
-                                    </td>
-                                    <td>
-                                        R$ 430.513,54
-                                    </td>
-                                    <td>
-                                        R$ 200.900,00
+                                        <a class="content"> (31) 3429-8750 </a>
                                     </td>
                                 </tbody>
-
 
                             </table>
                         </div>
@@ -193,6 +173,11 @@
     <!--script for this page-->
     <script src="assets/js/sparkline-chart.js"></script>
     <script src="assets/js/zabuto_calendar.js"></script>
+
+
+    <script src="assets/js/remove.js"></script>
+
+
 
     <script type="application/javascript">
         $(document).ready(function () {
