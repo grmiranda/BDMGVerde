@@ -43,58 +43,10 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>BDMG - Verde</b></a>
+            <a href="dashboardINTE.html" class="logo"><b>BDMG - Verde</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
-                <!--  notification start -->
-                
-                <ul class="nav top-menu">
-                    <!-- settings start -->
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-                            <i class="fa fa-tasks"></i>                            
-                        </a>
-                        <ul class="dropdown-menu extended tasks-bar">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <p class="green">Estatisticas</p>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <div class="task-info">
-                                        <div class="desc">Taxa de aprovação</div>
-                                        <div class="percent">83%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100" style="width: 83%">
-                                            <span class="sr-only">83% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
 
-                            <li>
-                                <a href="index.html#">
-                                    <div class="task-info">
-                                        <div class="desc">Taxa de desistência</div>
-                                        <div class="percent">8%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100" style="width: 8%">
-                                            <span class="sr-only">8% Complete (Important)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
-                    <!-- settings end -->
-
-                </ul>
-
-
-                <!--  notification end -->
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
@@ -112,18 +64,18 @@
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
-              	  <h5 class="centered">Analisador - João Carlos</h5>
+              	  <h5 class="centered">Integrador - Roberto Bittencourt</h5>
               	  	
                   <li class="mt">
-                      <a class="active" href="index.html">
+                      <a class="active" href="dashboardINTE.html">
                           <i class="fa fa-dashboard"></i>
                           <span>Dashboard</span>
                       </a>
                   </li>
                   <li class="mt">
-                        <a class="active" href="pendentes.html">
+                        <a  href="ContratosAndamento.html">
                             <i class="glyphicon glyphicon-book"></i>
-                            <span>Contratos com pendencias</span>
+                            <span>Contratos em andamento</span>
                         </a>
                     </li>
   
@@ -140,38 +92,6 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-
-              <div class="row">
-                  <div class="col-lg-9 main-chart">
-                  
-                  	<div class="row mtbox">
-                  		<div class="col-md-3 col-sm-2 box0">
-                  			<div class="box1">
-                                <p class="centered"><img src="assets/img/check.png" class="img-circle" width="62"></p>
-					  			<h3>442</h3>
-                  			</div>
-					  			<p>442 Projetos já foram aceitos.</p>
-                  		</div>
-                  		<div class="col-md-3 col-sm-2 box0">
-                  			<div class="box1">
-					  			<span class="li_news"></span>
-					  			<h3>3!</h3>
-                  			</div>
-					  			<p>Tem 3 Projetos necessitando avaliação.</p>
-                        </div>
-                        <div class="col-md-3 col-sm-2 box0">
-                            <div class="box1">
-                                    <p class="centered"><img src="assets/img/boook.png" class="img-circle" width="73"></p>
-                                <h3>2!</h3>
-                            </div>
-                                <p>Tem 2 Projetos com documentação pendente.</p>
-                        </div>
-                  	
-                  	</div><!-- /row mt -->	
-                  					
-
-                  
-                  
       <!-- **********************************************************************************************************************************************************
       RIGHT SIDEBAR CONTENT
       *********************************************************************************************************************************************************** -->                  
@@ -182,79 +102,26 @@
                 <table class="table table-advance" id="clientes">
                     <thead>
                         <tr>
-                            <th><i class="fa fa-user-o"></i> CNPJ Integrador </th>
-                            <th><i class="fa fa-id-card-o">  </i>CNPJ empresa</th>
-                            <th class="hidden-phone"><i class="fa fa-usd"></i> Valor de Credito</th>
-                            <th><i class="fa fa-usd"></i> Valor do projeto</th>
+                            <th><i class="fa fa-user-o"></i> CNPJ empresa </th> 
+                            <th><i class="fa fa-user-o"></i> Numero de contato </th>                            
+                            <th><i class="fa fa-usd"></i> Mensal de Energia</th>
                             <th></th>
                         </tr>
                     </thead>
                     
-                    <tbody v-show="remover == ''">                  
-                            <!--<h5 class="centered">contanome</h5>-->                                       
-                            
-                            <td> <a class="content" 
-                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 13.764.526/0001-90</a> 
-                            </td> 
-                                                                 
-                            <td > <a class="content" 
-                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 72.364.170/0001-66 </a>
-                            </td>
-                            <td  >
-                                 R$ 856.600,47
-                            </td>
-                            <td >     
-                                 R$ 324.000,00   
-                            </td>
-                            <td>
-                                <a v-on:click="removerPro()"
-                                class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i></a>
-                                <a href="{{ route('desativarCliente', $cliente->ID) }}"
-                                class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>                              
-                    </tbody>
                     <tbody>                  
                             <!--<h5 class="centered">contanome</h5>-->                                       
-                            
-                            <td> <a class="content" 
-                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 87.385.651/0001-25</a> 
-                            </td> 
-                                                                 
+                                                                                             
                             <td > <a class="content" 
-                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 15.386.142/0001-06 </a>
+                                href= "aceitarEnviar.html" > 72.364.170/0001-66 </a>
                             </td>
-                            <td  >
-                                 R$ 430.513,54
+                            <td >
+                                (31) 3334-5145
                             </td>
                             <td >     
-                                 R$  200.900,00   
+                                 R$ 2000,00   
                             </td>
-                            <td>
-                                <a href= "/dashboard/clientes/editar/{{$cliente->ID}}" 
-                                class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i></a>
-                                <a href="{{ route('desativarCliente', $cliente->ID) }}"
-                                class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>                              
-                    </tbody>
-                    <tbody>                  
-                            <!--<h5 class="centered">contanome</h5>-->                                       
-                            
-                            <td> <a class="content" 
-                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 38.415.585/0001-83</a> 
-                            </td> 
-                                                                 
-                            <td > <a class="content" 
-                                href= "/dashboard/clientes/processos/{{$cliente->ID}}" > 18.252.635/0001-41 </a>
-                            </td>
-                            <td  >
-                                 R$ 260.900,47
-                            </td>
-                            <td >     
-                                 R$  324.000,00   
-                            </td>
-                            <td>
-                                <a href= "/dashboard/clientes/editar/{{$cliente->ID}}" 
-                                class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i></a>
+                            <td>                               
                                 <a href="{{ route('desativarCliente', $cliente->ID) }}"
                                 class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
                             </td>                              
