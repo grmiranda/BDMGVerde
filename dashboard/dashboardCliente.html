@@ -25,6 +25,9 @@
     <script src="assets/js/chart-master/Chart.js"></script>
     <script src="https://unpkg.com/vue"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+    <script src="../chat/js/firebase.js"></script>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -69,18 +72,18 @@
             <div id="sidebar" class="nav-collapse ">
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <h5 class="centered">Integrador - Gabriel</h5>
+                    <h5 class="centered">Cliente - Cleybson</h5>
 
                     <li class="mt">
-                        <a class="active" href="dashboardINTE.html">
+                        <a class="active" href="dashboardCliente.html">
                             <i class="fa fa-dashboard"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="mt">
-                        <a class="active" href="ContratosAndamento.html">
+                        <a >
                             <i class="glyphicon glyphicon-book"></i>
-                            <span>Contratos em andamento</span>
+                            <span>Andamento</span>
                         </a>
                     </li>
 
@@ -97,49 +100,56 @@
         <!--main content start-->
         <section id="main-content">
             <section class="wrapper">
+                <!-- **********************************************************************************************************************************************************
+      RIGHT SIDEBAR CONTENT
+      *********************************************************************************************************************************************************** -->
 
+                <div class="row mt" id="app">
+                    <div class="col-md-12">
+                        <div>
+                            <div class="content-panel table-responsive">
+                                <table class="table table-advance" id="integradores">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <i class="fa fa-user-o"></i> Nome </th>
+                                            <th>
+                                                <i class="fa fa-usd"></i> Valor </th>
+                                            <th>
+                                                <i class="fa fa-usd"></i> Parcela</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
 
-                <h3>Enviar Projeto</h3>
-                <!-- BASIC FORM ELELEMNTS -->
-                <div id="alertMensagem"></div>
+                                    <tbody v-for="integradorAtual of integradores" @click="selectedClient(clienteAtual)">
+                                        <!--<h5 class="centered">contanome</h5>-->
 
+                                        <td>
+                                            {{integradorAtual.nome}}
+                                        </td>
+                                        <td>
+                                            Valor não inserido
+                                        </td>
+                                        <td>
+                                            Valor não inserido
+                                        </td>
+                                        <td>
+                                            <a class=" btn btn-xs" style= "background-color:lightgray"> 
+                                                <i class="glyphicon glyphicon-ok"></i>
+                                            </a>
+                                            <a  class="btn btn-xs" style= "background-color:lightgray " >
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </a>
+                                        </td>
+                                    </tbody>
 
-                <div class="row mt">
-                    <div class="col-lg-12">
-                        <div class="form-panel" >
-                            <form class="form-horizontal style-form">
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Custo</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="custo" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">N. celulas</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" name='celulas'  required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Peso</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="peso"  required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Area total</label>
-                                    <div class="col-sm-10">
-                                        <input type="password" class="form-control" name="area"  required>
-                                    </div>
-                                </div>
-                                <button class="btn filtrar"  >Aceitar e submeter </button>
-                            </form>
+                                </table>
+                            </div>
+                            <!-- /content-panel -->
                         </div>
-
+                        <!-- /col-md-12 -->
                     </div>
-                    <!-- col-lg-12-->
                 </div>
-                <!-- /row -->
             </section>
         </section>
 
@@ -165,6 +175,24 @@
     <!--script for this page-->
     <script src="assets/js/sparkline-chart.js"></script>
     <script src="assets/js/zabuto_calendar.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                integradores: []
+            }
+            , beforeCreate: function () {
+                getIntegradorByCliente(localStorage.getItem("keyClient"), (teste) => {
+                    console.log(teste);
+                    app.integradores = teste;
+                })
+            }
+
+        })
+    </script>
+
+
+
 
 
     <script type="application/javascript">

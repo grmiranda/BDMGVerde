@@ -72,7 +72,7 @@
             <div id="sidebar" class="nav-collapse ">
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <h5 class="centered">Integrador - Roberto Bittencourt</h5>
+                    <h5 class="centered">Integrador - Gabriel</h5>
 
                     <li class="mt">
                         <a class="active" href="dashboardINTE.html">
@@ -121,17 +121,17 @@
                                         </tr>
                                     </thead>
 
-                                    <tbody v-for="clienteAtual of clientes">
+                                    <tbody v-for="clienteAtual of clientes" @click="selectedClient(clienteAtual)">
                                         <!--<h5 class="centered">contanome</h5>-->
 
                                         <td>
                                             {{clienteAtual.cnpj}}
                                         </td>
                                         <td>
-                                            (31) 3334-5145
+                                            {{clienteAtual.telefone}}
                                         </td>
                                         <td>
-                                            R$ 2000,00
+                                            R$ {{clienteAtual.mensal}}
                                         </td>
                                         <td>
                                             <a class="btn btn-danger btn-xs">
@@ -177,7 +177,13 @@
             el: '#app',
             data: {
                 clientes: []
-            }, beforeCreate: function () {
+            }, methods :{
+                selectedClient: function(cliente){
+                    location.href = "aceitarEnviar.html?key="+ cliente.key
+                    console.log(cliente.key);
+                }
+            }
+            , beforeCreate: function () {
                 getClienteByIntegrador("-KxzEIw9GykFW48n38d1", (teste) => {
                     console.log(teste);
                     app.clientes = teste;
@@ -185,7 +191,6 @@
             }
 
         })
-
     </script>
 
 

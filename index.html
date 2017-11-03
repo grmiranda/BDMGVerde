@@ -92,6 +92,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
 									telefone = msg;
 									uid = addcliente({ nome, telefone });
+									localStorage.setItem("keyClient",uid);
 									mensagem(`Qual o CNPJ da sua empresa?`, 1000);
 									status = 4;
 									break

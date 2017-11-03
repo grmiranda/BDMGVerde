@@ -112,6 +112,8 @@ function getClienteByIntegrador(key, callback) {
                 aux2.key = relacionamento.cliente;
                 relacionamento.cnpj = aux2.cnpj;
                 relacionamento.nome = aux2.nome;
+                relacionamento.telefone = aux2.telefone;
+                relacionamento.mensal = aux2.mensal;
                 relacionamento.key = aux2.key;
                 aux3.push(relacionamento);
             });
@@ -134,8 +136,9 @@ function getIntegradorByCliente(key, callback) {
             db.ref('/integrador/' + relacionamento.integrador).once('value').then(function (snapshot2) {
                 aux2 = snapshot2.val();
                 aux2.key = relacionamento.integrador;
+                relacionamento.nome = aux2.nome;
                 relacionamento.integradores = aux2;
-                aux3.push(relacionamento);
+                aux3.push(aux2);
             });
         });
         callback(aux3);
